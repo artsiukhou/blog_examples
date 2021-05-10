@@ -5,6 +5,7 @@
 
 using namespace std;
 
+// Initial version, C++11/14
 void func1(int x) {
     cout << "invoked func1(int): " << x << endl;
 }
@@ -21,7 +22,6 @@ void func4() {
     cout << "invoked func4()" << endl;
 }
 
-
 template <typename Func, typename ...Args>
 void debugger(Func&& f, Args&&... args) {
     int dummy[sizeof...(Args)] = { (cout << args << " ", 0)... };
@@ -31,6 +31,7 @@ void debugger(Func&& f, Args&&... args) {
     f(forward<Args>(args)...);
 }
 
+// Updated version, C++11/14
 void printer() {
     cout << endl;
 }
@@ -49,6 +50,8 @@ void debugger_w_printer(Func&& f, Args&&... args) {
     f(forward<Args>(args)...);
 }
 
+
+// C++17: constexpr if
 template <typename Head, typename ...Tail>
 void printer17(Head&& h, Tail&&... tail) {
     cout << h << " ";
@@ -67,7 +70,7 @@ void debugger_w_printer17(Func&& f, Args&&... args) {
     f(forward<Args>(args)...);
 }
 
-
+// C++17: fold expressions
 template <typename Func, typename ...Args>
 void debugger17(Func&& f, Args&&... args) {
     if constexpr (sizeof...(Args) != 0) {
@@ -76,6 +79,7 @@ void debugger17(Func&& f, Args&&... args) {
     f(forward<Args>(args)...);
 }
 
+// C++17: join
 template <typename ...Args>
 string join(Args&&... args) {
     stringstream s;
@@ -85,6 +89,7 @@ string join(Args&&... args) {
     return result;
 }
 
+// C++17: push to vector
 template <typename T, typename... Args>
 void push_all(vector<T>& v, Args&&... args) {
     (v.push_back(args), ...);
